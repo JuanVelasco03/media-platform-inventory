@@ -1,0 +1,20 @@
+{
+  "Inventary": {
+    "title1": "Inventario Plataforma de medios",
+    "descripcion": "Apreciado estudiante bienvenido al aplicativo stakeholders, puede emplear esta herramienta como ayuda para construir o mapear su plan estratégico.",
+    "descripcion2": "Al finalizar oprima el botón guardar y espere a que se descargue el archivo. Cuidado, si cierra el navegador y no almacena sus cambios perderá la información diligenciada.",
+    "title2": "Objetivo: Mapear los canales, medio y escenarios con los que cuenta la empresa para desplegar sus estrategias, para identificar posibles mejoras, priorizar temáticas y garantizar cobertura a todos los públicos.",
+    "tabletTile1": "Canal, medio y/o escenario",
+    "tabletTile2": "Características",
+    "tabletTile3": "Restricciones",
+    "tabletTile4": "Periodicidad",
+    "tabletTile5": "Indicadores",
+    "tabletTile6": "Alcance",
+    "tabletTile7": "Temas",
+    "tabletTile8": "Responsable",
+    "titleInterna": "Comunicación interna",
+    "titleExterna": "Comunicación externa",
+    "titleMarketing": "Marketing",
+    "titleComentary": "Comentario"
+  }
+}

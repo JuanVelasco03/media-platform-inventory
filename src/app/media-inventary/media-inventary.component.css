@@ -1,0 +1,135 @@
+.mainTitlePanel {
+  height: 100%;
+}
+
+.mainTitlePanel h1{
+  margin-top: 32px;
+  text-align: center;
+  width: 100%;
+  font-size: 35px;
+  font-weight: 700;
+  background: -webkit-linear-gradient(257deg, #e3e13a, #1aedec);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.description {
+  width: 50%;
+  color: white;
+  text-align: center;
+  margin: 0 auto;
+  padding-bottom: 40px;
+  font-size: 19px;
+}
+
+.container-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding-bottom: 16px;
+}
+
+.clear-matriz{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 24px;
+}
+
+.content-data-matriz {
+  width: 90%;
+  background-color: #F4F4F4;
+  border-radius: 2em;
+  padding: 25px;
+  margin: 0 auto;
+}
+
+.text {
+  text-align: center;
+}
+
+.title {
+  background: black;
+  color: white;
+  text-align: center;
+}
+
+.info-user-box3 {
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 1em;
+  background: rgb(227, 225, 58);
+  background: linear-gradient(90deg, rgba(227, 225, 58, 1) 0%, rgba(26, 237, 236, 1) 100%);
+}
+
+.container-table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+}
+
+td,
+th {
+  border: 1px solid #000000;
+  text-align: left;
+  padding: 8px;
+  color: #000000;
+  word-wrap: break-word;
+  height: 100%;
+}
+
+th.column-form {
+  padding: 0;
+  height: 100%;
+}
+
+.form-field-w {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+}
+
+.select-h{
+  height: 125px;
+}
+
+textarea {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.button-cell {
+  display: flex;
+  border: none;
+  padding: 0;
+}
+
+.button-cell button {
+  margin-left: 16px;
+  margin-top: 70px;
+}
+
+.button-cell.last-cell {
+  padding: 4px;
+  margin: 0;
+}
+
+.container-button-save {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 16px;
+}
+
+

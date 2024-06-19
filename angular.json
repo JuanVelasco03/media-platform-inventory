@@ -71,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "media-platform-inventory:build:production"
+              "buildTarget": "media-platform-inventory:build:production"
             },
             "development": {
-              "browserTarget": "media-platform-inventory:build:development"
+              "buildTarget": "media-platform-inventory:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -82,7 +82,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "media-platform-inventory:build"
+            "buildTarget": "media-platform-inventory:build"
           }
         },
         "test": {
