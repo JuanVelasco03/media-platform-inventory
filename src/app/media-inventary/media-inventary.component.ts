@@ -47,7 +47,7 @@ export class MediaInventoryComponent {
 
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: any) {
-    if (!this.puedeCerrar()) {
+    if (!this.canClose()) {
       // Cancelar el evento de cierre
       event.preventDefault();
       // Mensaje personalizado antes de cerrar la pestaña
@@ -55,7 +55,7 @@ export class MediaInventoryComponent {
     }
   }
 
-  puedeCerrar(): boolean {
+  canClose(): boolean {
 
     if( this.inventaryFinished ) return true;
 
