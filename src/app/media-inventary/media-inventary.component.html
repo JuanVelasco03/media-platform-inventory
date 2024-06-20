@@ -2,41 +2,37 @@
   <div class="mainTitlePanel">
     <h1>{{'Inventary.title1' | translate }}</h1>
   </div>
-  <!-- <div class="mainTitlePanel">
-    <h3>{{'Matriz.subtitle' | translate }}</h3>
-  </div> -->
+  <div class="mainSubtitlePanel">
+    <h3>{{'Inventary.subtitle' | translate }}</h3>
+  </div>
   <div class="description">
     <div>
-      <label>
-        <p>{{'Inventary.descripcion' | translate }}</p>
-      </label>
+      <p>{{'Inventary.descripcion' | translate }}</p>
     </div>
 
     <div>
-      <label>
-        <p>{{'Inventary.descripcion2' | translate }}</p>
-      </label>
+      <p>{{'Inventary.descripcion2' | translate }}</p>
     </div>
   </div>
 </div>
 
-@if ( matrizFinished ) {
+@if ( inventaryFinished ) {
   <div class="container-buttons" >
-    <!-- <div class="actionButtonsBox" (click)="clearMatrizStakeholder()">
+    <div class="actionButtonsBox" (click)="clearMediaInventary()">
       <button class="button-64" role="button">
         <span class="text">Limpiar Matriz</span>
       </button>
     </div>
-    <div class="actionButtonsBox" (click)="downloadMatrizStakeholder()">
+    <div class="actionButtonsBox" (click)="downloadMediaInventaryPdf()">
       <button class="button-64" role="button">
         <span class="text">Descargar Matriz</span>
       </button>
-    </div> -->
+    </div>
   </div>
 }
 
 <div id="totalMatrizData">
-  <div class="content-data-matriz">
+  <div class="content-data-inventary">
     <div class="container-table mb-4">
       <table>
         <tr>
@@ -50,7 +46,7 @@
             <th>{{'Inventary.tabletTile8' | translate}}</th>
         </tr>
         <tr class="info-user-box3">
-          <th colspan="8" class="TitleBox1">{{'Matriz.titleInterna' | translate}}</th>
+          <th colspan="8" class="TitleBox1">{{'Inventary.titleInterna' | translate}}</th>
         </tr>
         @for (form of internComunication; track $index) {
           <tr [formGroup]="form">
@@ -70,14 +66,13 @@
             </th>
 
             <th class="column-form">
-              <mat-form-field class="form-field-w" appearance="fill">
-                <textarea
-                  matInput
-                  type="text"
-                  formControlName="characteristics"
-                  placeholder="{{'Inventary.titleComentary' | translate}}"
-                  rows="3"
-                ></textarea>
+              <mat-form-field class="form-field-w select-h" appearance="fill">
+                <mat-label> Selecciona </mat-label>
+                <mat-select formControlName="characteristics">
+                  @for (food of characteristics; track food) {
+                    <mat-option [value]="food">{{ food }}</mat-option>
+                  }
+                </mat-select>
                 <mat-error *ngIf="form.get('characteristics')?.invalid && form.get('characteristics')?.touched">
                   Campo requerido
                 </mat-error>
@@ -85,13 +80,14 @@
             </th>
 
             <th class="column-form">
-              <mat-form-field class="form-field-w select-h" appearance="fill">
-                <mat-label> Selecciona </mat-label>
-                <mat-select formControlName="restrictions">
-                  @for (food of characteristics; track food) {
-                    <mat-option [value]="food">{{ food }}</mat-option>
-                  }
-                </mat-select>
+              <mat-form-field class="form-field-w" appearance="fill">
+                <textarea
+                  matInput
+                  type="text"
+                  formControlName="restrictions"
+                  placeholder="{{'Inventary.titleComentary' | translate}}"
+                  rows="3"
+                ></textarea>
                 <mat-error *ngIf="form.get('restrictions')?.invalid && form.get('restrictions')?.touched">
                   Campo requerido
                 </mat-error>
@@ -173,8 +169,8 @@
               </mat-form-field>
             </th>
 
-            @if ( !matrizFinished ) {
-              <td class="button-cell last-cell" *ngIf="!matrizFinished">
+            @if ( !inventaryFinished ) {
+              <td class="button-cell last-cell">
                 @if ( internComunication.length > 1 ) {
                   <button mat-mini-fab color="primary" (click)="deleteRow( $index, internComunication )">
                     <mat-icon>remove</mat-icon>
@@ -193,7 +189,7 @@
 
 
         <tr class="info-user-box3">
-          <th colspan="8" class="TitleBox1">{{'Matriz.titleExterna' | translate}}</th>
+          <th colspan="8" class="TitleBox1">{{'Inventary.titleExterna' | translate}}</th>
         </tr>
         @for (form of externComunication; track $index) {
           <tr [formGroup]="form">
@@ -213,14 +209,13 @@
             </th>
 
             <th class="column-form">
-              <mat-form-field class="form-field-w" appearance="fill">
-                <textarea
-                  matInput
-                  type="text"
-                  formControlName="characteristics"
-                  placeholder="{{'Inventary.titleComentary' | translate}}"
-                  rows="3"
-                ></textarea>
+              <mat-form-field class="form-field-w select-h" appearance="fill">
+                <mat-label> Selecciona </mat-label>
+                <mat-select formControlName="characteristics">
+                  @for (food of characteristics; track food) {
+                    <mat-option [value]="food">{{ food }}</mat-option>
+                  }
+                </mat-select>
                 <mat-error *ngIf="form.get('characteristics')?.invalid && form.get('characteristics')?.touched">
                   Campo requerido
                 </mat-error>
@@ -228,13 +223,14 @@
             </th>
 
             <th class="column-form">
-              <mat-form-field class="form-field-w select-h" appearance="fill">
-                <mat-label> Selecciona </mat-label>
-                <mat-select formControlName="restrictions">
-                  @for (food of characteristics; track food) {
-                    <mat-option [value]="food">{{ food }}</mat-option>
-                  }
-                </mat-select>
+              <mat-form-field class="form-field-w" appearance="fill">
+                <textarea
+                  matInput
+                  type="text"
+                  formControlName="restrictions"
+                  placeholder="{{'Inventary.titleComentary' | translate}}"
+                  rows="3"
+                ></textarea>
                 <mat-error *ngIf="form.get('restrictions')?.invalid && form.get('restrictions')?.touched">
                   Campo requerido
                 </mat-error>
@@ -316,7 +312,7 @@
               </mat-form-field>
             </th>
 
-            @if ( !matrizFinished ) {
+            @if ( !inventaryFinished ) {
               <td class="button-cell last-cell">
                 @if ( externComunication.length > 1 ) {
                   <button mat-mini-fab color="primary" (click)="deleteRow( $index, externComunication )">
@@ -335,7 +331,7 @@
         }
 
         <tr class="info-user-box3">
-            <th colspan="8" class="TitleBox1">{{'Matriz.titleMarketing' | translate}}</th>
+            <th colspan="8" class="TitleBox1">{{'Inventary.titleMarketing' | translate}}</th>
         </tr>
         @for (form of marketingComunication; track $index) {
           <tr [formGroup]="form">
@@ -355,14 +351,13 @@
             </th>
 
             <th class="column-form">
-              <mat-form-field class="form-field-w" appearance="fill">
-                <textarea
-                  matInput
-                  type="text"
-                  formControlName="characteristics"
-                  placeholder="{{'Inventary.titleComentary' | translate}}"
-                  rows="3"
-                ></textarea>
+              <mat-form-field class="form-field-w select-h" appearance="fill">
+                <mat-label> Selecciona </mat-label>
+                <mat-select formControlName="characteristics">
+                  @for (food of characteristics; track food) {
+                    <mat-option [value]="food">{{ food }}</mat-option>
+                  }
+                </mat-select>
                 <mat-error *ngIf="form.get('characteristics')?.invalid && form.get('characteristics')?.touched">
                   Campo requerido
                 </mat-error>
@@ -370,13 +365,14 @@
             </th>
 
             <th class="column-form">
-              <mat-form-field class="form-field-w select-h" appearance="fill">
-                <mat-label> Selecciona </mat-label>
-                <mat-select formControlName="restrictions">
-                  @for (food of characteristics; track food) {
-                    <mat-option [value]="food">{{ food }}</mat-option>
-                  }
-                </mat-select>
+              <mat-form-field class="form-field-w" appearance="fill">
+                <textarea
+                  matInput
+                  type="text"
+                  formControlName="restrictions"
+                  placeholder="{{'Inventary.titleComentary' | translate}}"
+                  rows="3"
+                ></textarea>
                 <mat-error *ngIf="form.get('restrictions')?.invalid && form.get('restrictions')?.touched">
                   Campo requerido
                 </mat-error>
@@ -458,7 +454,7 @@
               </mat-form-field>
             </th>
 
-            @if ( !matrizFinished ) {
+            @if ( !inventaryFinished ) {
               <td class="button-cell last-cell">
                 @if ( marketingComunication.length > 1 ) {
                   <button mat-mini-fab color="primary" (click)="deleteRow( $index, marketingComunication )">
@@ -478,9 +474,9 @@
       </table>
     </div>
 
-    @if ( !matrizFinished ) {
+    @if ( !inventaryFinished ) {
       <div class="container-button-save">
-        <div class="actionButtonsBox">
+        <div class="actionButtonsBox" (click)="saveValuesForms()">
           <button class="button-64" role="button"><span class="text">Guardar Matriz</span></button>
         </div>
       </div>

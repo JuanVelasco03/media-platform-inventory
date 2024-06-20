@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { MediaPlatform, MediaRow } from './interfaces/media-inventary.interface';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -25,10 +25,9 @@ export class MediaInventoryComponent {
 
   mediaPlatformService = inject( MediaPlatformService );
 
-
   submitted: boolean = false;
 
-  matrizFinished = false;
+  inventaryFinished = false;
 
   internComunication: FormGroup[] = [];
 
@@ -42,7 +41,39 @@ export class MediaInventoryComponent {
 
   ngOnInit(): void {
     this.initRowForms()
-    this.getDataMatrizStakeholder();
+    this.getDataMediaInventary();
+    window.addEventListener('beforeunload', this.beforeUnloadHandler);
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnloadHandler(event: any) {
+    if (!this.puedeCerrar()) {
+      // Cancelar el evento de cierre
+      event.preventDefault();
+      // Mensaje personalizado antes de cerrar la pestaña
+      event.returnValue = '¿Estás seguro de que quieres salir? Aún no has completado la acción.';
+    }
+  }
+
+  puedeCerrar(): boolean {
+
+    if( this.inventaryFinished ) return true;
+
+    const arrFormValidate = [...this.internComunication, ...this.externComunication, ...this.marketingComunication]
+
+    let result = true;
+
+    // Iteramos sobre cada formulario en internComunication
+    arrFormValidate.forEach((form) => {
+      const formEntries = Object.entries(form.value);
+      // Verificamos si algún campo en el formulario actual no está vacío
+      const nonEmptyField = formEntries.some(([key, value]) => value !== '');
+      if ( nonEmptyField ) {
+        result = false; // Si encontramos un campo no vacío, actualizamos result a false
+      }
+    });
+
+    return result;
   }
 
   initRowForms(){
@@ -59,21 +90,21 @@ export class MediaInventoryComponent {
     ]
   }
 
-  getDataMatrizStakeholder(){
-    const data = this.mediaPlatformService.getDataMatrizStakeholder();
+  getDataMediaInventary(){
+    const data = this.mediaPlatformService.getDataMediaInventary();
     const { internComunication, externComunication, Marketing } = data;
 
     if( internComunication && externComunication && Marketing ){
       this.internComunication = this.buildFormsRow( internComunication );
       this.externComunication = this.buildFormsRow( externComunication );
       this.marketingComunication = this.buildFormsRow( Marketing );
-      this.matrizFinished = true;
+      this.inventaryFinished = true;
     }
 
   }
 
-  buildFormsRow( MatrizRow: MediaRow[] ): FormGroup[] {
-    return MatrizRow.map( (row) => {
+  buildFormsRow( MediaRow: MediaRow[] ): FormGroup[] {
+    return MediaRow.map( (row) => {
       //Construye el formulario.
       const form = this.fb.group( row );
       //Deshabilita el formulario.
@@ -85,14 +116,14 @@ export class MediaInventoryComponent {
 
   getFormRow(){
     const formRow: FormGroup = this.fb.group({
-      public: ['', Validators.required],
-      caracters: ['', Validators.required],
-      influence: ['', Validators.required],
-      need: ['', Validators.required],
-      offer: ['', Validators.required],
-      languaje: ['', Validators.required],
-      messages: ['', Validators.required],
-      existsComunication: ['', Validators.required]
+      channel: [ '', Validators.required ],
+      characteristics: [ '', Validators.required ],
+      restrictions: [ '', Validators.required ],
+      periodicity: [ '', Validators.required ],
+      indicators: [ '', Validators.required ],
+      scope: [ '', Validators.required ],
+      topics: [ '', Validators.required ],
+      responsible: [ '', Validators.required ]
     });
 
     return formRow;
@@ -147,22 +178,37 @@ export class MediaInventoryComponent {
 
     if(!validForms) return this.showAlertEmptyForm();
 
-    const resSaveMatriz = this.mediaPlatformService.saveDataMatrizStakeholder({ internComunication, externComunication, Marketing });
+    Swal.fire({
+      title: '¿Estás seguro de que deseas guardar la información?',
+      text: 'Una vez guardada, no podrás modificar la información.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, guardar',
+      cancelButtonText: 'Cancelar',
+      didOpen: () => {
+        document.body.style.overflowY = 'auto';
+      },
 
-    if( resSaveMatriz ){
-      this.matrizFinished = true;
-      Swal.fire({
-        title: 'Matriz guardada!',
-        text: 'La matriz ha sido guardada correctamente.',
-        icon: 'success',
-        didOpen: () => {
-          document.body.style.overflowY= 'auto';
+    }).then((result) => {
+      if(result.isConfirmed){
+        const resSaveMedia = this.mediaPlatformService.saveDataMediaInventary({ internComunication, externComunication, Marketing });
+        if( resSaveMedia ){
+          this.inventaryFinished = true;
+          Swal.fire({
+            title: 'Información guardada!',
+            text: 'La información ha sido guardada correctamente.',
+            icon: 'success',
+            didOpen: () => {
+              document.body.style.overflowY= 'auto';
+            }
+          })
+          this.mediaPlatformService.generatePdf();
+          this.getDataMediaInventary();
         }
-      })
-      this.mediaPlatformService.generatePdf();
-      this.getDataMatrizStakeholder();
-    }
-
+      }
+    })
   }
 
   validateForms(formValidate: FormGroup[]): boolean {
@@ -173,7 +219,7 @@ export class MediaInventoryComponent {
     return !hasInvalidForm;
   }
 
-  downloadMatrizStakeholder(){
+  downloadMediaInventaryPdf(){
     this.mediaPlatformService.generatePdf();
   }
 
@@ -188,7 +234,7 @@ export class MediaInventoryComponent {
     })
   }
 
-  clearMatrizStakeholder(){
+  clearMediaInventary(){
     Swal.fire({
       title: '¿Estás seguro que deseas limpiar la matriz?',
       text: "Esta acción no se puede deshacer.",
@@ -197,14 +243,15 @@ export class MediaInventoryComponent {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Sí, limpiar',
+      cancelButtonText: 'Cancelar',
       didOpen: () => {
         document.body.style.overflowY= 'auto';
       }
     }).then((result) => {
       if (result.isConfirmed) {
-        this.mediaPlatformService.clearMatrizStakeholder();
+        this.mediaPlatformService.clearMediaInventary();
         this.initRowForms();
-        this.matrizFinished = false;
+        this.inventaryFinished = false;
         Swal.fire({
           title: 'Matriz limpiada!',
           text: 'La matriz ha sido limpiada correctamente.',

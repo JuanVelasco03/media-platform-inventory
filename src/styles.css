@@ -38,10 +38,6 @@ body {
   background: #555;
 }
 
-body.swal2-shown {
-  overflow-y: auto !important;
-}
-
 .actionButtonsBox {
   text-align: center;
   display: flex;
@@ -100,4 +96,8 @@ body.swal2-shown {
       font-size: 17px;
       min-width: 190px;
   }
+}
+
+body.swal2-shown {
+  overflow-y: auto !important;
 }
